@@ -1,5 +1,7 @@
 #ifndef GRAMMAR_H_INCLUDED
 #define GRAMMAR_H_INCLUDED
+
+#include "grammarDef.h"
 int last_occurence(char* s,grammar G);
 
 int first_occurence(char* s,grammar G);
