@@ -1,6 +1,15 @@
 #ifndef GRAMMARDEF_H_INCLUDED
 #define GRAMMARDEF_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <time.h>
+#include <malloc.h>
+#include <unistd.h>
+#include <signal.h>
+
 extern int line_count;
 extern int no_of_terminals;
 
