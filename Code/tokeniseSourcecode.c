@@ -1,9 +1,6 @@
 #include "tokeniseSourcecode.h"
 
-
-
 char* getNextToken(FILE *fp,int *line_no){
-
     char ch = ' ';
     char *token = (char *)malloc(sizeof(char)*50);
     int sz = 0;
@@ -14,12 +11,13 @@ char* getNextToken(FILE *fp,int *line_no){
             break;
         }
         else if(ch == '\n'){
-            line_no++;
+            *line_no = *line_no  + 1;
             break;
         }
         else {
             token[sz++] = ch;
         }
+
     }   
     token[sz] = '\0';
     return token;
@@ -104,12 +102,12 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
         printf("Error!");   
         exit(1);             
     }
-    else {
-        printf("file received");
-    }
+    
     int count = 1;
-    int *line_no = &count;
 
+    int *line_no = (int*)malloc(sizeof(int));
+
+    *line_no = 1;
 
     while(!feof(fp)){
         struct tokenStream* nex = (tokenStream*)malloc(sizeof(tokenStream));
@@ -119,7 +117,7 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
         nex->token = tok;
         // printf("tokenising");
         nex->lexeme = lex;
-        nex->line_no = count;
+        nex->line_no = *line_no;
         nex->next = NULL;
         s->next = nex;
         s = s->next;
