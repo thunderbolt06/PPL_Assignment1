@@ -8,6 +8,8 @@ char* getNextToken(FILE *fp,int *line_no){
 
         ch = fgetc(fp);
         if(ch == ' '){
+            if(sz == 0)continue;
+            else
             break;
         }
         else if(ch == '\n'){
@@ -18,25 +20,9 @@ char* getNextToken(FILE *fp,int *line_no){
             token[sz++] = ch;
         }
 
-    }
+    }   
     token[sz] = '\0';
     return token;
-}
-
-bool compare_string(char *first, char *second)
-{
-   while(*first==*second)
-   {
-      if ( *first == '\0' || *second == '\0' )
-         break;
-
-      first++;
-      second++;
-   }
-   if( *first == '\0' && *second == '\0' )
-      return true;
-   else
-      return false;
 }
 
 char* patternMatch(char* s){
@@ -70,23 +56,13 @@ char* patternMatch(char* s){
             return "SEMICOLON";
         else if(*s==':')
             return "COLON";
+        else if(*s=='\0')
+            return "NEWLINE";
     }
-
-    if(compare_string(s,"variables"))return "VARIABLES_KEYWORD";
-    if(compare_string(s,".."))return "RANGEOP";
-    if(compare_string(s,"of"))return "OF_KEYWORD";
-    if(compare_string(s,"()"))return "OPEN_CLOSE_BRA";
-    if(compare_string(s,"|||"))return "OR_KEYWORD";
-    if(compare_string(s,"&&&"))return "AND_KEYWORD";
-    if(compare_string(s,"declare"))return "DECLARE_KEYWORD";
-    if(compare_string(s,"integer"))return "INTEGER_KEYWORD";
-    if(compare_string(s,"boolean"))return "BOOLEAN_KEYWORD";
-    if(compare_string(s,"list"))return "LIST_KEYWORD";
-    if(compare_string(s,"real"))return "REAL_KEYWORD";
-    if(compare_string(s,"size"))return "SIZE_KEYWORD";
-    if(compare_string(s,"array"))return "ARRAY_KEYWORD";
-    if(compare_string(s,"jagged"))return "JAGGED_KEYWORD";
-    if(compare_string(s,"values"))return "VALUES_KEYWORD";
+    if(len==2){
+        if(*s=='.' && *(s+1)=='.')return "RANGEOP";
+        else if(*s=='o' || *(s+1)=='f')return "OF_KEYWORD";
+    }
     if(*s>='0' && *s<='9'){
         int real=0;
         while(*s!='\0'){
@@ -98,6 +74,21 @@ char* patternMatch(char* s){
         if(real)return "RNUM1";
         return "NUM1";
     }
+    if( strcmp(s, "|||") == 0)return "OR_KEYWORD";
+    if( strcmp(s, "&&&") == 0)return "AND_KEYWORD";
+    if( strcmp(s, "declare") == 0)return "DECLARE_KEYWORD";
+    if( strcmp(s, "integer") == 0)return "INTEGER_KEYWORD";
+    if( strcmp(s, "boolean") == 0)return "BOOLEAN_KEYWORD";
+    if( strcmp(s, "size") == 0)return "SIZE_KEYWORD";
+    if( strcmp(s, "real") == 0)return "REAL_KEYWORD";
+    if( strcmp(s, "list") == 0)return "LIST_KEYWORD";
+    if( strcmp(s, "array") == 0)return "ARRAY_KEYWORD";
+    if( strcmp(s, "jagged") == 0)return "JAGGED_KEYWORD";
+    if( strcmp(s, "values") == 0)return "VALUES_KEYWORD";
+    if( strcmp(s, "program") == 0)return "START1_KEYWORD";
+    if( strcmp(s, "()") == 0)return "START2_KEYWORD";
+    if( strcmp(s, "R1") == 0)return "R1_KEYWORD";
+    if( strcmp(s, "variables") == 0)return "VARIABLES_KEYWORD";
     if((*s>='a' && *s<='z') || (*s>='A' && *s<='Z'))return "VARIABLE";
     return "ERROR";
 }
@@ -106,10 +97,10 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
     FILE *fp = fopen(file_address,"r");
     if(fp == NULL)
     {
-        printf("Error!");
-        exit(1);
+        printf("Error!");   
+        exit(1);             
     }
-
+    
     int count = 1;
 
     int *line_no = (int*)malloc(sizeof(int));
@@ -118,7 +109,11 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
 
     while(!feof(fp)){
         struct tokenStream* nex = (tokenStream*)malloc(sizeof(tokenStream));
-        char* tok = getNextToken(fp,line_no);
+        char* tok;
+        do{
+            tok = getNextToken(fp,line_no);
+        }while(strcmp( tok , "\0") == 0);
+        
         char* lex = patternMatch(tok);
         // printf("%s", tok);
         nex->token = tok;
@@ -139,7 +134,7 @@ void print_token_stream(struct tokenStream *s){
 	printf("\n");
 
     while(s){
-        printf("\t%-30d %-50s %-30s\n", s->line_no, s->lexeme, s->token);
+        printf("\t%-30d %-50s %-30s\n", s->line_no, s->lexeme, (int)s->token);
         s = s->next;
     }
 }
