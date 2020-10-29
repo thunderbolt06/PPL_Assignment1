@@ -20,7 +20,7 @@ char* getNextToken(FILE *fp,int *line_no){
             token[sz++] = ch;
         }
 
-    }   
+    }
     token[sz] = '\0';
     return token;
 }
@@ -97,10 +97,10 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
     FILE *fp = fopen(file_address,"r");
     if(fp == NULL)
     {
-        printf("Error!");   
-        exit(1);             
+        printf("Error!");
+        exit(1);
     }
-    
+
     int count = 1;
 
     int *line_no = (int*)malloc(sizeof(int));
@@ -113,7 +113,7 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
         do{
             tok = getNextToken(fp,line_no);
         }while(strcmp( tok , "\0") == 0);
-        
+
         char* lex = patternMatch(tok);
         // printf("%s", tok);
         nex->token = tok;
@@ -139,7 +139,7 @@ void print_token_stream(struct tokenStream *s){
     }
 }
 
-int main(int argc, char const *argv[])
+/*int main(int argc, char const *argv[])
 {
     struct tokenStream s;
 
@@ -147,4 +147,4 @@ int main(int argc, char const *argv[])
     tokeniseSourcecode("sourcecode.txt", &s);
     print_token_stream(s.next);
     return 0;
-}
+}*/
