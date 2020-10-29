@@ -1,4 +1,6 @@
-#include "tokeniseSourcecode.h"
+
+#include "parserDef.h"
+#include "lexerDef.h"
 
 char* getNextToken(FILE *fp,int *line_no){
     char ch = ' ';
@@ -108,7 +110,7 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
     *line_no = 1;
 
     while(!feof(fp)){
-        struct tokenStream* nex = (tokenStream*)malloc(sizeof(tokenStream));
+        struct Lexeme* nex = (tokenStream*)malloc(sizeof(Lexeme));
         char* tok;
         do{
             tok = getNextToken(fp,line_no);
@@ -116,7 +118,7 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
 
         char* lex = patternMatch(tok);
         // printf("%s", tok);
-        nex->token = tok;
+        nex->TOKEN = tok;
         // printf("tokenising");
         nex->lexeme = lex;
         nex->line_no = *line_no;
