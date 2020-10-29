@@ -1,4 +1,6 @@
 #include "grammar.h"
+#include "tokeniseSourcecode.c"
+#include "tokeniseSourcecode.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,25 +12,34 @@
 
 int line_count;
 FILE* sourceCode;
+struct tokenStream s;
 
-void menuOptions(int option, FILE* sourceFile, char* filename,){
+//s.token = "START";
+void menuOptions(int option, FILE* sourceFile, char* filename){
     line_count = 1;
     switch(option){
         case 1:
+            printf("Printing tokenised source code \n");
+            tokeniseSourcecode(filename, &s);
+            print_token_stream(s.next);
             printf("\n\n Parse tree created \n");
             printf("*************************************************************************************\n");
+            break;
 
         case 2:
             printf("\n\n Traverse the parse tree to construct typeExpressionTable. Also print the type errors while traversing the parse tree and accessing the typeExpressionTable \n");
             printf("*************************************************************************************\n");
+            break;
 
         case 3:
             printf("\n\n : Printing parse tree \n");
             printf("*************************************************************************************\n");
+            break;
 
         case 4:
             printf("\n\n  Printing typeExpressionTable \n");
             printf("*************************************************************************************\n");
+            break;
 
         default:
 			printf("\n\nPLEASE ENTER A VALID OPTION BETWEEN 0 AND 4\n");
@@ -96,6 +107,6 @@ int main(int argc, char* argv[])
 		menuOptions(option, sourceCode, correctfile);
 	}while(1);
 	fclose(sourceCode);
-	printExitMsg();
+	//printExitMsg();
 	return 0;
 }
