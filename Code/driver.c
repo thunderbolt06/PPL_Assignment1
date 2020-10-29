@@ -1,6 +1,8 @@
-#include "grammar.h"
+#include "parser.c"
 #include "tokeniseSourcecode.c"
 #include "tokeniseSourcecode.h"
+#include "parserDef.h"
+#include "lexerDef.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,16 +14,18 @@
 
 int line_count;
 FILE* sourceCode;
-struct tokenStream s;
+struct Lexeme s;
 
 //s.token = "START";
 void menuOptions(int option, FILE* sourceFile, char* filename){
-    line_count = 1;
+    line_count = 1;table T;
     switch(option){
         case 1:
             printf("Printing tokenised source code \n");
             tokeniseSourcecode(filename, &s);
             print_token_stream(s.next);
+
+            parseInputSourceCode(sourceFile, T, &s);
             printf("\n\n Parse tree created \n");
             printf("*************************************************************************************\n");
             break;

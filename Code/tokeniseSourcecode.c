@@ -1,4 +1,5 @@
-#include "tokeniseSourcecode.h"
+#include "lexerDef.h"
+#include "parserDef.h"
 
 char* getNextToken(FILE *fp,int *line_no){
     char ch = ' ';
@@ -93,7 +94,7 @@ char* patternMatch(char* s){
     return "ERROR";
 }
 
-void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
+void tokeniseSourcecode(  char* file_address,struct  Lexeme  *s){
     FILE *fp = fopen(file_address,"r");
     if(fp == NULL)
     {
@@ -108,18 +109,24 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
     *line_no = 1;
 
     while(!feof(fp)){
-        struct tokenStream* nex = (tokenStream*)malloc(sizeof(tokenStream));
+        struct Lexeme* nex = (Lexeme*)malloc(sizeof(Lexeme));
         char* tok;
         do{
             tok = getNextToken(fp,line_no);
         }while(strcmp( tok , "\0") == 0);
 
         char* lex = patternMatch(tok);
+        if(strcmp(lex,"NUM1") == 0){
+            nex->Value.val = atoi(tok);
+        }
+        if(strcmp(lex,"RNUM1") == 0){
+            nex->Value.real_val = atoi(tok);
+        }
         // printf("%s", tok);
-        nex->token = tok;
+        nex->TOKEN = tok;
         // printf("tokenising");
         nex->lexeme = lex;
-        nex->line_no = *line_no;
+        nex->Line_No = *line_no;
         nex->next = NULL;
         s->next = nex;
         s = s->next;
@@ -127,14 +134,14 @@ void tokeniseSourcecode(  char* file_address,struct  tokenStream  *s){
 
 }
 
-void print_token_stream(struct tokenStream *s){
+void print_token_stream(struct Lexeme *s){
     printf("   %-30s      %-50s %-30s\n", "LINE NUMBER", "LEXEME", "TOKEN NAME");
 	for(int i=0; i<=100; i++)
 		printf("_");
 	printf("\n");
 
     while(s){
-        printf("\t%-30d %-50s %-30s\n", s->line_no, s->lexeme, (int)s->token);
+        printf("\t%-30d %-50s %-30s\n", s->Line_No, s->lexeme, (int)s->TOKEN);
         s = s->next;
     }
 }
