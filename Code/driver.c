@@ -12,7 +12,7 @@
 
 int line_count;
 FILE* sourceCode;
-struct tokenStream s;
+extern struct tokenStream s;
 
 //s.token = "START";
 void menuOptions(int option, FILE* sourceFile, char* filename){
