@@ -16,12 +16,14 @@ struct tokenStream s;
 
 //s.token = "START";
 void menuOptions(int option, FILE* sourceFile, char* filename){
-    line_count = 1;
+    line_count = 1;table T;
     switch(option){
         case 1:
             printf("Printing tokenised source code \n");
             tokeniseSourcecode(filename, &s);
             print_token_stream(s.next);
+
+            parseInputSourceCode(sourceCode, T, l);
             printf("\n\n Parse tree created \n");
             printf("*************************************************************************************\n");
             break;
