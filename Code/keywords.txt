@@ -1,0 +1,14 @@
+PROGRAM program
+DECLARE declare
+LIST list
+OF of
+VARIABLES variables
+ARRAY array
+OF of
+INTEGER integer
+JAGGED jagged
+REAL reaal
+BOOLEAN boolean
+R1 R1
+SIZE size
+VALUES values
