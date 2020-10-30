@@ -7,23 +7,7 @@ ID: 2017B5A70761P Name: Ayush Kumar
 #include "parserDef.h"
 #include "lexerDef.h"
 
-
-int last_occurence(char* s,grammar G)
-{
-	for(int i=G.size-1;i>=0;i--)
-		if(strcmp(G.start[i].value,s)==0)
-			return i;
-}
-
-
-int first_occurence(char* s,grammar G)
-{
-	for(int i=0;i<G.size;i++)
-		if(strcmp(G.start[i].value,s)==0)
-			return i;
-}
-
-
+//checks if it is terminal or non terminal
 int checkntort(char * ch, char ** strs,grammar G)
 {
 	if(strcmp(ch,"#")==0)
@@ -36,7 +20,7 @@ int checkntort(char * ch, char ** strs,grammar G)
 	return 1;
 }
 
-
+//finds non terminal
 void find_nt(grammar G)
 {
 	for(int i=0;i<G.size;i++)
@@ -50,7 +34,7 @@ void find_nt(grammar G)
 	}
 }
 
-
+//populates non terminals
 void populate_nt(grammar *G)
 {
 	if(G->size==1)
@@ -69,7 +53,7 @@ void populate_nt(grammar *G)
 	}
 }
 
-
+//calculates hash function
 int calculate_hash(char* s,int factor)
 {
 	int sum=0;
@@ -78,7 +62,7 @@ int calculate_hash(char* s,int factor)
 	return sum%factor;
 }
 
-
+//fills hash non terminal table
 void fill_hash_nt_table()
 {
     factor_nt=7;
@@ -105,7 +89,7 @@ void fill_hash_nt_table()
 	}
 }
 
-
+//fills hash terminal table
 void fill_hash_t_table()
 {
 	for(int i=0;i<no_of_terminals;i++)
@@ -131,7 +115,7 @@ void fill_hash_t_table()
 	}
 }
 
-
+//checks is the pattern is already present
 bool already_present(char** arr, char* str,int size)
 {
 	for(int i=0;i<size;i++)
@@ -140,7 +124,7 @@ bool already_present(char** arr, char* str,int size)
 	return 0;
 }
 
-
+//checks rank of the non terminal
 int rank(char* nt)
 {
 	int t=calculate_hash(nt,factor_nt);
@@ -154,7 +138,7 @@ int rank(char* nt)
 	return -1;
 }
 
-
+//checks rank of the terminal
 int terminal_rank(char* s)
 {
 	int t=calculate_hash(s,factor_t);
@@ -166,9 +150,9 @@ int terminal_rank(char* s)
 		start=start->next;
 	}
 	return -1;
-
 }
 
+//fills out the terminal
 int fill_terminal(char* s,int size)
 {
 	if(already_present(terminals,s,size))
@@ -180,6 +164,7 @@ int fill_terminal(char* s,int size)
 	return size;
 }
 
+//prints parse tree by taking the root node
 void printParseTree(node* n)
 {
     if(n==NULL)
