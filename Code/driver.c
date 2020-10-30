@@ -25,7 +25,91 @@ void menuOptions(int option, FILE* sourceFile, char* filename){
             tokeniseSourcecode(filename, &s);
             print_token_stream(s.next);
 
-            parseInputSourceCode(sourceFile, T, &s);
+
+            FILE * fp = fopen("grammar.txt", "r");
+	if(fp==NULL)
+	{
+		perror("Grammar file not found");
+		exit(0);
+	}
+	char str[100];
+	char* token;
+	char* rest;
+	char* lhsvalue;
+	LHS* lhs;
+	RHS* rhs;
+	int i = 0;
+	char prev_lhs_value[50] = "";
+	int j =0;
+	char temp[50] = "";
+	gram.no_of_nt=0;
+
+	while(fscanf(fp, "%[^\n]\n", str) != EOF)
+	{
+		rest = str;
+		token = strtok_r(rest," ", &rest);
+		if(i == 0)
+		{
+			gram.start=malloc(sizeof(LHS));
+			gram.start[i].value=malloc(sizeof(char)*(strlen(token)+1));
+			strcpy(gram.start[i].value, token);
+			gram.start[i].head = NULL;
+			gram.size=1;
+		}
+		else
+		{
+			LHS* ptr=gram.start;
+			gram.start=realloc(gram.start,sizeof(LHS)*(i+1));
+			gram.start[i].value=malloc(sizeof(char)*(strlen(token)+1));
+			strcpy(gram.start[i].value, token);
+			gram.start[i].head = NULL;
+			gram.size++;
+		}
+
+		populate_nt(&gram);
+		token = strtok_r(rest,"-", &rest);
+		char str[]="#";
+		if(!strcmp(token, str))
+		{
+			gram.start[i].e = 1;
+			rhs = (RHS *)malloc(sizeof(RHS));
+			gram.start[i].head = rhs;
+			rhs->value=malloc(sizeof(char)*(strlen(token)+1));
+			strcpy(rhs -> value, token);
+			rhs -> next = NULL;
+			i++;
+			continue;
+		}
+
+		if((i != 0) && (!strcmp(gram.start[i-1].value, gram.start[i].value)) && (gram.start[i-1].e == 1))
+			gram.start[i].e = 1;
+
+		else
+			gram.start[i].e = 0;
+
+		rhs = (RHS *)malloc(sizeof(RHS));
+		gram.start[i].head = rhs;
+		rhs->value=malloc(sizeof(char)*(strlen(token)+1));
+		strcpy(rhs -> value, token);
+		rhs -> next = NULL;
+		RHS * prev = rhs;
+
+		while ((token = strtok_r(rest, "-", &rest)))
+		{
+
+				rhs = (RHS *)malloc(sizeof(RHS));
+				prev -> next = rhs;
+				rhs->value=malloc(sizeof(char)*(strlen(token)+1));
+				strcpy(rhs -> value, token);
+				rhs -> next = NULL;
+				prev = rhs;
+    		}
+		i++;
+	}
+
+
+            //parseInputSourceCode(sourceFile, T, &s);
+            //parser();
             printf("\n\n Parse tree created \n");
             printf("*************************************************************************************\n");
             break;
