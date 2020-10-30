@@ -75,6 +75,7 @@ int calculate_hash(char* s,int factor)
 
 void fill_hash_nt_table()
 {
+    factor_nt=7;
 	for(int i=0;i<gram.no_of_nt;i++)
 	{
 		int t=calculate_hash(nonterminals[i],factor_nt);
@@ -483,11 +484,6 @@ void display()
 }
 
 
-void printExitMsg()
-{
-	printf("\n\nEXITING THE APPLICATION.\n\nTHANK YOU FOR USING !!!\n\n");
-	//kill(getpid(), SIGINT);
-}
 
 
 node* parse_tree(LHS* lhs , node* n, Lexeme* lex)
@@ -795,7 +791,7 @@ void printParseTree(node* n)
 
 void parser()
 {
-	/*FILE * fp = fopen("grammar.txt", "r");
+	FILE * fp = fopen("grammar.txt", "r");
 	if(fp==NULL)
 	{
 		perror("Grammar file not found");
@@ -874,7 +870,7 @@ void parser()
 				prev = rhs;
     		}
 		i++;
-	}*/
+	}
 
 	find_nt(gram );
 	int sum=0;
