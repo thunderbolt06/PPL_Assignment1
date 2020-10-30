@@ -1,3 +1,9 @@
+/*
+GROUP NUMBER : 50
+ID: 2017B4A70541P	Name: Rahil Jain
+ID: 2017B5A70615P  Name: Kaustubh Dwivedi
+ID: 2017B5A70761P Name: Ayush Kumar
+*/
 #ifndef _LEXERDEF_H
 #define _LEXERDEF_H
 
@@ -14,19 +20,12 @@
 #define FILEBYTES 100
 #define table_size 53
 
-#define RED "\x1b[1;31m"
-#define YELLOW "\x1b[1;33m"
-#define MAGENTA "\x1b[1;35m"
-#define GREEN "\x1b[1;32m"
-#define RESET "\x1b[0m"
-#define CYAN "\x1b[1;36m"
-#define BLUE "\x1b[1;34m"
-#define LINE "\033[1m\033[34m"
+
 
 
 int line_count;
 int buf_count;
-int DFA_state;
+
 int Printst;
 int factor_nt;
 int factor_t;
@@ -37,9 +36,12 @@ int SemErr;
 
 FILE* sourceCode;
 
-
+//enum ter {PROGRAM, BO, BC, CUBO, CUBC, DECLARE, COLON, ID, LIST, OF, VARIABLES, SEMICOL, ARRAY, INTEGER, JAGGED, REAL, BOOLEAN, SQBO, RANGEOP, SQBC, SQBO, RANGEOP, SQBC, NUM, R1, SIZE, VALUES, EQUAL, PLUS, MINUS, MULTIPLY, DIVIDE, OR, AND};
 enum state{Error, Start, Alpha1, Alpha2, Num1, Num2, RNum1, RangRet, RNum2, RNum3, RNum4, RNum5, RNum6, RNum7, RNum8, C1, C2, C3, C4, Mul, Les1, Les2, Les3, Les4, Les5, Les6, Grt1, Grt2, Grt3, Grt4, Grt5, Grt6, Col1, Col2, Col3, Ran1, Ran2, Plus, Minus, Divide, Semcol, Equal1, Equal2, NotEqual1, NotEqual2, Com, SqbO, SqbC, BracO, BracC, ROP, Start2, End2} States;
-
+//enum nonter {start, statements, declarationStat, declarations, assignmentStat, assignments, multideck, datatype,
+//multiDec, ids, type, recRange, jagRanges, desc, recRanges, var, arrayIdOne, index, jagRange, ranges, jaggedValues, range, expression, expression arithmetic, boole, arithmetic, term, nextArithmetic, op1,
+//, followingTerm, op2, boolTerm, nextBool, logicalOp1, followingBool, logicalOp2,
+//};
 enum printstate{Initial, Com1, Com2, Com3} PrintState;
 
 char* buffer1;

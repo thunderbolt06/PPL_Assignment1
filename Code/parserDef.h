@@ -1,18 +1,14 @@
+/*
+GROUP NUMBER : 50
+ID: 2017B4A70541P	Name: Rahil Jain
+ID: 2017B5A70615P  Name: Kaustubh Dwivedi
+ID: 2017B5A70761P Name: Ayush Kumar
+*/
 #ifndef _PARSERDEF_H
 #define _PARSERDEF_H
 
 #include "lexerDef.h"
 
-extern int line_count;
-extern int buf_count;
-extern int DFA_state;
-extern int Printst;
-extern int factor_nt;
-extern int factor_t;
-extern int no_of_terminals;
-extern int SynxErr;
-extern int LexErr;
-extern int SemErr;
 
 typedef struct st_node st_node;
 
@@ -39,30 +35,6 @@ typedef struct grammar{
 }grammar;
 
 
-typedef struct First{
-    char* value;
-    char** first_list;
-    int size_first_list;
-    int e;
-}First;
-
-
-typedef struct Follow{
-    char* value;
-    char** follow_list;
-    int size_follow_list;
-    int d;
-}Follow;
-
-
-typedef struct FirstAndFollow{
-    First* first;
-    Follow* follow;
-    int no_of_firsts;
-    int no_of_follows;
-}FirstAndFollow;
-
-FirstAndFollow * fo;
 
 
 typedef struct table{
@@ -198,7 +170,7 @@ stack_node* top;
 
 table T;
 
-FirstAndFollow F;
+//FirstAndFollow F;
 
 
 #endif

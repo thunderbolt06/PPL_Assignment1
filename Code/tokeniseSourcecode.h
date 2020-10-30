@@ -1,3 +1,9 @@
+/*
+GROUP NUMBER : 50
+ID: 2017B4A70541P	Name: Rahil Jain
+ID: 2017B5A70615P  Name: Kaustubh Dwivedi
+ID: 2017B5A70761P Name: Ayush Kumar
+*/
 #ifndef TOKENISESOURCECODE_H_INCLUDED
 #define TOKENISESOURCECODE_H_INCLUDED
 
@@ -11,17 +17,11 @@
 #include <signal.h>
 
 
-// #define FILEBYTES 100
-
-// typedef union value{
-// 	int Int;
-// 	double Real;
-// }value;
 
 typedef struct tokenStream {
 	char* lexeme;
 	char* token;
-	// value value;
+
 	int line_no;
     struct tokenStream* next;
 }tokenStream;
