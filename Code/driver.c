@@ -15,7 +15,8 @@
 int line_count;
 FILE* sourceCode;
 struct Lexeme s;
-
+struct grammar gram;
+factor_nt=7;
 //s.token = "START";
 void menuOptions(int option, FILE* sourceFile, char* filename){
     line_count = 1;table T;
@@ -43,6 +44,7 @@ void menuOptions(int option, FILE* sourceFile, char* filename){
 	int j =0;
 	char temp[50] = "";
 	gram.no_of_nt=0;
+
 
 	while(fscanf(fp, "%[^\n]\n", str) != EOF)
 	{
@@ -106,10 +108,75 @@ void menuOptions(int option, FILE* sourceFile, char* filename){
     		}
 		i++;
 	}
+	find_nt(gram );
+	int sum=0;
+	F.first=malloc(sizeof(First)*(gram.no_of_nt));
+	F.follow=malloc(sizeof(Follow)*(gram.no_of_nt));
+
+	for(int i=0;i<gram.no_of_nt;i++)
+	{
+		F.first[i].size_first_list=0;
+		F.follow[i].size_follow_list=0;
+		F.first[i].e=0;
+		F.follow[i].d=0;
+	}
+
+
+	hash_nt_ptr=malloc(sizeof(hash_nt*)*factor_nt);
+
+
+	for(int i=0;i<factor_nt;i++)
+		hash_nt_ptr[i]=NULL;
+
+	fill_hash_nt_table();
+	F.no_of_firsts=gram.no_of_nt;
+	F.no_of_follows=gram.no_of_nt;
+	F.follow[0].follow_list=malloc(sizeof(char*));
+	F.follow[0].follow_list[0]=malloc(sizeof(char)*2);
+	F.follow[0].follow_list[0][0]='$';
+	F.follow[0].follow_list[0][1]=0;
+	F.follow[i].d=1;
+	F.follow[0].size_follow_list++;
+	int it=0;
+	F=ComputeFirstAndFollowSets(gram,F,it);
+	it++;
+	F=ComputeFirstAndFollowSets(gram,F,it);
+	F=ComputeFirstAndFollowSets(gram,F,it);
+	F=ComputeFirstAndFollowSets(gram,F,it);
+	int size=0;
+	for(int i=0;i<gram.size;i++)
+	{
+		RHS* start=gram.start[i].head;
+		while(start!=NULL)
+		{
+			if(start->check==1)
+				size=fill_terminal(start->value,size);
+			start=start->next;
+		}
+	}
+	printf("hi1");
+	size=fill_terminal("$",size);
+	printf("hi2");
+	no_of_terminals=size;
+
+
+
+	hash_t_ptr=malloc(sizeof(hash_t*)*factor_t);
+	for(int i=0;i<factor_t;i++)
+		hash_t_ptr[i]=NULL;
+
+	fill_hash_t_table();
+	fo=&F;
+	T.r = gram.no_of_nt;
+	T.c = no_of_terminals;
+	T = createParseTable(F,  T);
+	T = createParseTable(F,  T);
+	printf("\n\n*************************** FIRST and FOLLOW SETS AUTOMATED ***************************\n\n");
 
 
             //parseInputSourceCode(sourceFile, T, &s);
             //parser();
+            printf("\n\n Grammar Imported \n");
             printf("\n\n Parse tree created \n");
             printf("*************************************************************************************\n");
             break;
@@ -195,6 +262,6 @@ int main(int argc, char* argv[])
 		menuOptions(option, sourceCode, correctfile);
 	}while(1);
 	fclose(sourceCode);
-	//printExitMsg();
+
 	return 0;
 }
