@@ -795,7 +795,7 @@ void printParseTree(node* n)
 
 void parser()
 {
-	FILE * fp = fopen("Grammar.txt", "r");
+	/*FILE * fp = fopen("grammar.txt", "r");
 	if(fp==NULL)
 	{
 		perror("Grammar file not found");
@@ -874,7 +874,7 @@ void parser()
 				prev = rhs;
     		}
 		i++;
-	}
+	}*/
 
 	find_nt(gram );
 	int sum=0;
